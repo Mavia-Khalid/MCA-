@@ -14,9 +14,15 @@ class Array
     int getsize();
     void insert(int x , int index);
     void display();
-    int del(int index);
 
 };
+void Array::display()
+{
+    for(int i=0;i<size;i++)
+    {
+        cout << " " << arr[i];
+    }
+}
 int Array::getsize()
 {
     return size;
@@ -33,47 +39,26 @@ void Array::insert(int x , int index)
         cout<<"\n\t Array Full ";
         return;
     }
-    for(int i=size;i>index;i--)
-    {
-        arr[i] = arr[i-1];
-    }
-    arr[index] = x;
+    // for(int i=size;i>index;i--)
+    // {
+    //     arr[i]=arr[i-1];
+    // }
+    arr[index]=x;
     size++;
 }
-void Array::display()
-{
-    cout<<"\n\t";
-    for(int i=0;i<size;i++)
-    {
-        cout << " " << arr[i];
-    }
-}
-int Array::del(int index)
-{
-    if(index<0||index>size)
-    {
-        cout << "\n\t Invalid Index ";
-        return 0;
-    }
-    for(int i=index; i<size; i++)
-    {
-        arr[i] = arr[i+1];
-    }
-    size--;
-    return 1;
-}
-void store(Array &a , int n)
+void store(Array &a , int n)                // Generating Repeated Even Numbers
 {
     for(int i=0;i<n;i++)
     {
-        int j = i+1;
-        if(j%2 == 0)
+        int j=i+1;
+        if(j%2==0)
         {
-            a.insert(j,i);
+            a.insert(j,a.getsize());
+            a.insert(j,a.getsize());
         }
         else
         {
-            a.insert(j,(j-1)/2);
+            a.insert(j,a.getsize());
         }
     }
 }
@@ -85,11 +70,8 @@ int main()
     cin>>size;
     store(a , size);
     a.display();
-    cout << "\n\t Size : " << a.getsize();
-    a.del(7);
-    cout << endl;
-    a.display();
-    cout << "\n\t Size : " << a.getsize();
-    cout << endl << endl;
+    cout<<endl;
+    cout<<a.getsize();
+    cout<<endl;
     return 0;
 }
