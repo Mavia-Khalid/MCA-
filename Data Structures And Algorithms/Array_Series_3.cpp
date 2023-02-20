@@ -14,15 +14,9 @@ class Array
     int getsize();
     void insert(int x , int index);
     void display();
+    int del(int index);
 
 };
-void Array::display()
-{
-    for(int i=0;i<size;i++)
-    {
-        cout << " " << arr[i];
-    }
-}
 int Array::getsize()
 {
     return size;
@@ -46,6 +40,30 @@ void Array::insert(int x , int index)
     arr[index]=x;
     size++;
 }
+void Array::display()
+{
+    cout << "\n\t";
+    for(int i=0;i<size;i++)
+    {
+        cout << " " << arr[i];
+    }
+}
+int Array::del(int index)
+{
+    if(index<0||index>size)
+    {
+        cout << "\n\t Invalid Index ";
+        return 0;
+    }
+    int No_Of_Movements = 0;
+    for(int i=index; i<size; i++)
+    {
+        arr[i] = arr[i+1];
+        No_Of_Movements++;
+    }
+    size--;
+    return No_Of_Movements;
+}
 void store(Array &a , int n)                // Generating Repeated Odd Numbers
 {
     for(int i=0;i<n;i++)
@@ -62,6 +80,16 @@ void store(Array &a , int n)                // Generating Repeated Odd Numbers
         }
     }
 }
+void deldup(Array &a , int n)
+{
+    int Total_No_Of_Movements = 0;
+    for(int i=n-2;i>=1;i-=3)
+    {
+        Total_No_Of_Movements += a.del(i);
+    }
+    cout << "\n\t Total No of Movements to Delete Duplicates : " << Total_No_Of_Movements << endl;
+}
+
 int main()
 {
     Array a(1000);
@@ -70,5 +98,12 @@ int main()
     cin>>size;
     store(a , size);
     a.display();
+    cout<<endl;
+    cout << "\n\t Size : " << a.getsize() << endl;
+    deldup(a , (size*3)/2);
+    a.display();
+    cout<<endl;
+    cout << "\n\t Size : " << a.getsize() << endl;
+    cout<<endl;
     return 0;
 }

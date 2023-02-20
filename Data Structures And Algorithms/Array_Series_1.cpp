@@ -33,12 +33,15 @@ void Array::insert(int x , int index)
         cout<<"\n\t Array Full ";
         return;
     }
+    int No_Of_Movements = 0;
     for(int i=size;i>index;i--)
     {
         arr[i] = arr[i-1];
+        No_Of_Movements++;
     }
     arr[index] = x;
     size++;
+    cout << "\n\t No. of Movements For X = " << x << " is " << No_Of_Movements;
 }
 void Array::display()
 {
@@ -80,13 +83,15 @@ void store(Array &a , int n)
 int main()
 {
     Array a(1000);
-    int size;
-    cout<<"\n\t Enter Array Size : ";
+    int size , index;
+    cout << "\n\t Enter Array Size : ";
     cin>>size;
     store(a , size);
     a.display();
     cout << "\n\t Size : " << a.getsize();
-    a.del(7);
+    cout << "\n\t Enter Index to Delete Element : ";
+    cin >> index;
+    a.del(index);
     cout << endl;
     a.display();
     cout << "\n\t Size : " << a.getsize();
