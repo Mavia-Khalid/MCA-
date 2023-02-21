@@ -86,8 +86,17 @@ void store(Array &a , int n)                // Generating Repeated Even Numbers
 }
 void Del_Dup_Min_Movements(Array &a , int n)
 {
+	int m;
+	if(n%2==0)
+	{
+		m = (n*3/2)-1;
+	}
+	else
+	{
+		m = (n*3/2)-2; 
+	}
     int Total_No_Of_Movements = 0;
-    for(int i=n-1;i>=2;i-=3)
+    for(int i=m;i>=2;i-=3)
     {
         Total_No_Of_Movements += a.del(i);
     }
@@ -103,7 +112,7 @@ int main()
     store(a , size);
     a.display();
     cout << endl;
-    Del_Dup_Min_Movements(a , (size*3)/2);
+    Del_Dup_Min_Movements(a , size);
     a.display();
     cout << endl;
     return 0;

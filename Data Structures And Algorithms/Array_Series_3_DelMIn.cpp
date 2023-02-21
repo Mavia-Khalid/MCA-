@@ -86,8 +86,17 @@ void store(Array &a , int n)                // Generating Repeated Odd Numbers
 }
 void Del_Dup_MIn_Movements(Array &a , int n)
 {
+	int m;
+	if(n%2 == 0)
+	{
+		m = ((n*3)/2)-2;
+	}
+	else 
+	{
+		m = ((n*3)/2+1)-1;
+	}
     int Total_No_Of_Movements = 0;
-    for(int i=n-2;i>=1;i-=3)
+    for(int i=m;i>=1;i-=3)
     {
         Total_No_Of_Movements += a.del(i);
     }
@@ -103,7 +112,7 @@ int main()
     store(a , size);
     a.display();
     cout<<endl;
-    Del_Dup_MIn_Movements(a , (size*3)/2);
+    Del_Dup_MIn_Movements(a , size);
     a.display();
     cout<<endl;
     return 0;
