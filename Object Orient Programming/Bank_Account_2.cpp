@@ -5,17 +5,24 @@
 using namespace std;
 class Bank_Account
 {
+    long bal;
+    string name1;
+    string type1;
     vector<string> name;
     vector<string> type;
-    vector<long> bal;
+    vector<long> balance;
     vector<long> acc_no;
     vector<long> password;
-    public:
+    int Admin_ID  = 1234;
+    int Admin_Pass = 2345;
+    public:  
     int Open_Account();
     void Deposit(int acc , int amount);
     void Withdraw(int acc , int amount);
     int Display(int acc);
     bool UserLogin(long User_ID , long Pass);
+    bool AdminLogin(long User_ID , long Pass);
+    void AdminPanel();
 };
 int Bank_Account::Open_Account()
 {
@@ -39,7 +46,7 @@ int Bank_Account::Open_Account()
 
     name.push_back(name1);
     type.push_back(type1);
-    bal.push_back(bal1);
+    balance.push_back(bal1);
 
     int i=name.size()+10;
     password1=i*564312;
@@ -57,9 +64,9 @@ void Bank_Account::Deposit(int acc , int amount)
     {
         if(acc_no[i]==acc)
         {
-            cout<<"\n\t Current Balance : "<<bal[i];
-            bal[i]+=amount;
-            cout<<"\n\t Updated Balance : "<<bal[i];
+            cout<<"\n\t Current Balance : "<<balance[i];
+            balance[i]+=amount;
+            cout<<"\n\t Updated Balance : "<<balance[i];
             cout<<endl;
             return;
         }
@@ -73,12 +80,12 @@ void Bank_Account::Withdraw(int acc , int amount)
     {
         if(acc_no[i]==acc)
         {
-            cout<<"\n\t Current Balance : "<<bal[i];
-            if(amount<=bal[i])
+            cout<<"\n\t Current Balance : "<<balance[i];
+            if(amount<=balance[i])
             {
-                bal[i]-=amount;
+                balance[i]-=amount;
                 cout<<"\n\t Amount Withdrawn : "<<amount;
-                cout<<"\n\t Updated Balance : "<<bal[i];
+                cout<<"\n\t Updated Balance : "<<balance[i];
                 cout<<endl;
                 return;
             }
@@ -99,7 +106,7 @@ int Bank_Account::Display(int acc)
             cout << "\n\t Name : " << name[i];
             cout << "\n\t Account No. : " << acc_no[i];
             cout << "\n\t Type : " << type[i];
-            cout << "\n\t Balance : "<< bal[i];
+            cout << "\n\t Balance : "<< balance[i];
             cout << "\n\t User ID : " << acc_no[i];
             cout << "\n\t Password : " << password[i];
             cout<<endl;
@@ -114,37 +121,87 @@ bool Bank_Account::UserLogin(long User_ID , long Pass)
 {
     for(int i=0;i<acc_no.size();i++)
     {
-        if(acc_no[i]==User_ID&&password[i]==Pass)
+        if(acc_no[i] == User_ID && password[i] == Pass)
         {
             return true;
         }
     }
     return false;
 }
+bool Bank_Account::AdminLogin(long User_ID , long Pass)
+{
+    if(User_ID == Admin_ID && Pass == Admin_Pass)
+    {
+        return true;
+    }
+    return false;
+}
+void Bank_Account::AdminPanel()
+{
+    cout << "\n\t Name " << " Account No. " << " Type " << " Balance " << " User ID " << " Password " << endl;
+    for(int i=0; i<name.size(); i++)
+    {
+        cout<<"\n\t " << name[i] << " " << acc_no[i] << "     " << type[i] << "  " << balance[i] << "   " << acc_no[i] << "    " << password[i];
+    }
+}
+void UserPanel(int id , Bank_Account &Bank)
+{
+    int amt;
+    char choice , n;
+    do
+    {
+        cout << "\n\t Enter 1 to Deposit ";
+        cout << "\n\t Enter 2 to Withdraw ";
+        cout << "\n\t Enter 3 to Display ";
+        cout << "\n\t Enter 4 to Logout \n\t ";
+        cin >> choice;
+        switch(choice)
+        {
+            case '1':
+            {
+                cout << "\n\t Enter Amount : ";
+                cin >> amt;
+                Bank.Deposit(id , amt);
+                break;
+            }
+            case '2':
+            {
+                cout << "\n\t Enter Amount : ";
+                cin >> amt;
+                Bank.Withdraw(id , amt);
+                break;
+            }
+            case '3':
+            {
+                Bank.Display(id);
+                break;
+            }
+            default:
+                cout << "\n\t  Logout Successful ";
+                return;
+        }
+        cout << "\n\t Enter 1 to Continue or Any Other Key To Exit : ";
+        cin >> n;
+        cout << endl;
+    }
+    while (n == '1');
+
+}
 int main()
 {
-    int n , acc , amt , log;
+    bool log;
+    char  n;
     long id , pass;
     char choice;
     Bank_Account Bank;
-    Bank.Open_Account();
-    cout<<"\n\t Enter User ID : ";
-    cin>>id;
-    cout<<"\n\t Enter Passsword : ";
-    cin>>pass;
-    log = Bank.UserLogin(id , pass);
-    if(log)
+    do
     {
-        do
-        {
-            cout << "\n\t Enter 1 to Open Account ";
-            cout << "\n\t Enter 2 to Deposit ";
-            cout << "\n\t Enter 3 to Withdraw ";
-            cout << "\n\t Enter 4 to Display ";
-            cout << "\n\t Enter 5 to Logout \n\t ";
-            cin>>choice;
-            switch(choice)
-            {
+        cout << "\n\t Enter 1 to Open Account ";
+        cout << "\n\t Enter 2 to Admin Login ";
+        cout << "\n\t Enter 3 to User Login ";
+        cin >> choice;
+        switch(choice)
+        { 
             case '1':
             {
                 Bank.Open_Account();
@@ -152,33 +209,41 @@ int main()
             }
             case '2':
             {
-                cout << "\n\t Enter Amount : ";
-                cin >> amt;
-                Bank.Deposit(id , amt);
+                cout << "\n\t Enter Admin ID : ";
+                cin >> id;
+                cout << "\n\t Enter Passsword : ";
+                cin>>pass;
+                log = Bank.AdminLogin(id , pass);
+                if(log)
+                {
+                    Bank.AdminPanel();
+                }
                 break;
             }
             case '3':
             {
-                cout << "\n\t Enter Amount : ";
-                cin >> amt;
-                Bank.Withdraw(id , amt);
-                break;
-            }
-            case '4':
-            {
-                Bank.Display(id);
+                cout << "\n\t Enter User ID : ";
+                cin >> id;
+                cout << "\n\t Enter Passsword : ";
+                cin>>pass;
+                log = Bank.UserLogin(id , pass);
+                if(log)
+                {
+                    UserPanel(id , Bank);
+                }
+                else
+                {
+                    cout << "\n\t Wrong ID or Password ";
+                }
                 break;
             }
             default:
-                cout << "\n\t  Logout Successful ";
-                break;
-            }
-            cout << "\n\t Enter 1 to Continue or Any Other Key To Exit : ";
-            cin >> n;
-            cout << endl;
+                break; 
         }
-        while (n==1);
-    } 
+        cout << "\n\t Enter 1 to Go to Menu or 0 to Exit : ";
+        cin >> n;
+    }
+    while(n == '1');
     cout << endl << endl;
     return 0;
 }
