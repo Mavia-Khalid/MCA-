@@ -7,7 +7,7 @@ class Matrix
     public:
     Matrix(int n)
     {
-        arr = new int[((n*(n+1))/2)];
+        arr = new int[n*n];
         order = n;
     }
     int map(int i , int j);
@@ -16,16 +16,16 @@ class Matrix
     void add(Matrix &B);
     void Multiply(Matrix &B);
 };
-int Matrix::map(int i , int j)            // Column Major Order Mapping
+int Matrix::map(int i , int j)
 {
-    return ((j*(j+1))/2+i);        
+    return (order*i+j);
 }
 void Matrix::read()
 {
-    cout << "\n\t Enter Non Null Elemets of Matrix : ";
+    cout << "\n\t Enter Elemets of Matrix : ";
     for(int i=0; i<order; i++)
     {
-        for(int j=i; j<order; j++)
+        for(int j=0; j<order; j++)
         {
             cin >> arr[map(i,j)];
         }
@@ -39,14 +39,7 @@ void Matrix::print()
         cout << "\t";
         for(int j=0; j<order; j++)
         {
-            if(j>=i)
-            {
-                cout << " " << arr[map(i,j)];
-            }
-            else
-            {
-                cout << " 0";
-            }
+            cout << " " << arr[map(i,j)];
         }
         cout << endl;
     }
@@ -62,7 +55,7 @@ void Matrix::add(Matrix &B)
     Matrix C(order);
     for(int i=0; i<order; i++)
     {
-        for(int j=i; j<order; j++)
+        for(int j=0; j<order; j++)
         {
             C.arr[map(i,j)] = arr[map(i,j)] + B.arr[map(i,j)];
         }
@@ -80,12 +73,12 @@ void Matrix::Multiply(Matrix &B)
     Matrix C(order);
     for(int i=0; i<order; i++)
     {
-        for(int j=i; j<order; j++)
+        for(int j=0; j<order; j++)
         {
             C.arr[map(i,j)] = 0;
-            for(int k=i; k<=j; k++)
+            for(int k=0; k<order; k++)
             {
-                C.arr[map(i,j)] = C.arr[map(i,j)] + (arr[map(i,k)] * B.arr[map(k,j)]);
+                C.arr[map(i,j)] = C.arr[map(i,j)] + (arr[map(i,j)] * B.arr[map(i,j)]);
             }
         }
     }

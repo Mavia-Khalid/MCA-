@@ -85,7 +85,7 @@ void Matrix::Multiply(Matrix &B)
             C.arr[map(i,j)] = 0;
             for(int k=j; k<=i; k++)
             {
-                C.arr[map(i,j)] = C.arr[map(i,j)] + (arr[map(i,j)] * B.arr[map(i,j)]);
+                C.arr[map(i,j)] = C.arr[map(i,j)] + (arr[map(i,k)] * B.arr[map(k,j)]);
             }
         }
     }
