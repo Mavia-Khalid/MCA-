@@ -15,19 +15,19 @@ void sort(vector<int> &arr)
 {
     int start=0;
     int end=arr.size()-1;
-    int i=0;
-    while(i!=end)
+    while(start <= end)
     {
-        if(arr[i]==0)
+        if(arr[start] == 0)
         {
-            swap(arr[start],arr[i]);
             start++;
-            i++;
+        }
+        else if (arr[end] == 1)
+        {
+            end--;
         }
         else
         {
-            swap(arr[i],arr[end]);
-            end--;
+            swap(arr[end--] , arr[start++]);
         }
     }
 }
@@ -35,7 +35,7 @@ void sort(vector<int> &arr)
 void Print(vector<int> &arr1)
 {
     cout<<"\t";
-    for(auto i: arr1)    // Foreach loop
+    for(auto i:arr1)    // Foreach loop
     {
         cout<<" "<<i;     // Elements is Printed Not Index
     }
