@@ -8,11 +8,15 @@ int main()
     int i = 0;
     while( i < arr.size())
     {
-        while(arr[i] != i)
+        int index = arr[i];
+        if(arr[i] != arr[index])
         {
-            swap(arr[i] , arr[arr[i]]);
+            swap(arr[i] , arr[index]);
         }
-        i++;
+        else
+        {
+            i++;
+        }
     }
     for(auto i:arr)
     {

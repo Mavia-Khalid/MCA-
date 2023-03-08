@@ -2,7 +2,7 @@
 #include <vector>
 #include<algorithm>
 #include <math.h>
-using namespace std;
+using namespace std;                                    // Constraint is a[i] belongs to [1,N]
 void Find_Duplicate(vector<int> arr)
 {
     sort(arr.begin() , arr.end());                         // Approach 1 O(nlogn)
