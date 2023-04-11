@@ -6,7 +6,7 @@ int main()
     int num;
     cout << "\n\t Enter a Number : ";
     cin >> num;
-    long double Ans = Square_Root(num);
+    double Ans = Square_Root(num);
     cout << "\n\t Square Root : " << Ans;
     cout << endl << endl;
     return 0;
@@ -17,8 +17,8 @@ float Square_Root(int num)
     {
         return num;
     }
-    long double start = 0 , end = num , mid;
-    long double ans;
+    double start = 0 , end = num , mid;
+    double ans;
     mid = start + (end - start)/2; 
     while(start <= end)
     {
@@ -37,7 +37,7 @@ float Square_Root(int num)
         }
         mid = start + (end - start)/2;
     }
-    for(long double i = ans; i*i <= num; i += 0.01)
+    for(double i = ans; i*i <= num; i += 0.01)
     {
         ans = i;
     }
