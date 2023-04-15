@@ -1,20 +1,11 @@
 #include <iostream>
 #include <string.h>
-#include<cstdlib>
-#include<windows.h>
 using namespace std;
-void gotoxy(int x, int y)
-{
-    COORD coord;
-    coord.X = x;
-    coord.Y = y;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord);
-}
+int count = 0;
 class Student
 {
     int stud_roll;
     string stud_name, course_name, dob;
-
 public:
     void Getrec();
     void Modifyrec();
@@ -26,11 +17,11 @@ void Student::Getrec()
     cout << "\n\t Enter your Roll No. : ";
     cin >> stud_roll;
     cin.ignore();
-    cout << "\n\t Enter your Name : ";
+    cout << "\t Enter your Name : ";
     getline(cin , stud_name);
-    cout << "\n\t Enter your Course Name : ";
+    cout << "\t Enter your Course Name : ";
     cin >> course_name;
-    cout << "\n\t Enter your DOB : ";
+    cout << "\t Enter your DOB : ";
     cin >> dob;
     cout << endl;
 }
@@ -73,24 +64,19 @@ void Student::Modifyrec()
 }
 void Student::Printrec()
 {
-    gotoxy(15,2);
-    cout << " Student Information ";
-    gotoxy(3,5);
-    cout << " Name : " << stud_name;
-    gotoxy(30,5);
-    cout << " Roll No. : " << stud_roll;
-    gotoxy(3,6);
-    cout << " Course : " << course_name;
-    gotoxy(30,6);
-    cout << " DOB : " << dob;
+    cout << "\n\t\t\t Student Information ";  
+    cout << "\n\t\t  Name : " << stud_name;
+    cout << "\t\t  Roll No. : " << stud_roll;
+    cout << "\n\t\t  Course : " << course_name;
+    cout << "\t\t  DOB : " << dob;
     cout << endl;
 }
 class Exam
 {
-    string exam_name, paper_name[4], paper_code[4];
-    int marks_obtained[4], total_marks;
-    char grade[4];
-
+    string exam_name, paper_name[2], paper_code[2];
+    int marks_obtained[2], total_marks , n = 2;
+    char grade[2];
+    Student a;
 public:
     Exam()
     {
@@ -101,21 +87,36 @@ public:
     void printresult();
     void getgrade(int i);
     int totalmarks();
+    void students();
+    int roll(int r, int i)
+    {
+        if (a.stud_roll == r)
+        {
+            return i;
+        }
+        else
+            return -1;
+    }
 };
 void Exam::getmarks()
 {
     cout << "\n\t Enter Exam Name : ";
     cin >> exam_name;
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < n; i++)
     {
-        cout << "\n\t Enter Paper " << i << " Code ";
+        cout << "\n\t Enter Paper " << i+1 << " Code ";
         cin >> paper_code[i];
-        cout << "\n\t Enter Paper " << i << " Name ";    
+        cout << "\t Enter Paper " << i+1 << " Name ";    
         cin >> paper_name[i];
-        cout << "\n\t Enter Marks : ";
-        cin >> marks_obtaine[i];
+        cout << "\t Enter Marks : ";
+        cin >> marks_obtained[i];
         getgrade(i);
     }
+}
+void Exam::students()
+{
+    a.Getrec();
+    getmarks();
 }
 void Exam::getgrade(int i)
 {
@@ -147,18 +148,154 @@ void Exam::getgrade(int i)
 int Exam::totalmarks()
 {
     int total;
-    for(int i = 0; i < 4; i++)
+    for(int i = 0; i < n; i++)
     {
         total = total + marks_obtained[i];
     }
     return total;
 }
+void Exam::printresult()
+{      
+    a.Printrec();
+    cout << "\n\t\t\t Examination Name : " << exam_name;
+    cout << "\n\t    Paper Name " << "\t Paper Code "<< "\t Marks " << "\t   Grade ";
+    for(int i = 0; i < n; i++)
+    {
+        cout << "\n\t\t" << paper_name[i] << "\t   " << paper_code[i] << "\t  " << marks_obtained[i] << "       " << grade[i];
+    }
+    cout << endl;
+    float p = (totalmarks()/200)*100;
+    cout << "\n\t    Total marks : " << totalmarks();
+    cout << "\t Percentage : " << p;
+    if(float((totalmarks()/n)*100 >= 33))
+    {
+        cout << "\n\n\t\t\t   Result : Pass "; 
+    }
+    else
+    {
+        cout << "\n\n\t\t\t   Result : Fail ";
+    }
+    cout << endl << endl;
+}
+void Exam::modifymarks()
+    {
+        char choice;
+        cout << "\n\t Press 1 to Modify Student Info  ";
+        cout << "\n\t Press 2 to Modify Student Marks ";
+        cin >> choice;
+        switch(choice)
+        {
+        case '1':
+        {
+            a.Modifyrec();
+            break;
+        }
+        case '2':
+        {
+            int j = 0;
+            cout << "\n\t Enter to modify marks\n";
+            for (int i = 0; i < n; i++)
+            {
+                cout << endl << i + 1 << ". " << paper_name[i] << "  ";
+                cout << marks_obtained[i] << endl;
+            }
+            cin >> j;
+            cin.ignore();
+            if (j >= 1 && j <= n)
+            {
+                cout << "Enter the correct marks of the student\n";
+                cin >> marks_obtained[j - 1];
+                cin.ignore();
+            }
+            else
+            {
+                cout << "\n\t Invalid option";
+            }
+            break;
+        }
+        default:
+            cout << "\n\t Invalid choice";
+            break;
+        }
+}
 int main()
 {
+    Exam a[10];
+    char choice;
+    do
+    {
+        cout << "\n\t Press 1 to Create new Student record ";
+        cout << "\n\t Press 2 to Modify or View existing student record ";
+        cout << "\n\t Press 3 to Exit ";
+        cin >> choice;
+        switch(choice)
+        {
+            case '1':
+            {
+                a[count++].students();
+                break;
+            }
+            case '2':
+            {
+                int roll;
+                int j = -1;
+                cout << "\n\t Enter the Roll to acess student record: ";
+                cin >> roll;
+                int i = 0;
+                while (j == -1 && i < count)
+                {
+                    j = a[i].roll(roll, i);
+                    i++;
+                }
+                if (j != -1)
+                {
+                    char choice1;
+                    do
+                    {
+                        cout << "\n\t Press 1 to show marksheet of the student ";
+                        cout << "\n\t Press 2 to modify student record ";
+                        cout << "\n\t Press 3 to exit ";
+                        cin >> choice1;
+                        switch (choice1)
+                        {
+                            case '1':
+                            {
+                                a[j].printresult();
+                                break;
+                            }
+                            case '2':
+                            {
+                                a[j].modifymarks();
+                                break;
+                            }
+                            case '3':
+                            {
+                                break;
+                            }
+                            default:
+                            {
+                                cout << "\n\t Invalid Input";
+                            }
+                        }
+                    } while (choice1 != '3');
+                }
+                else if (j == -1)
+                {
+                    cout << "\n\t No record found ";
+                }
+                break;
+            }
+            case '3':
+            {
+                break;
+            }
+            default:
+            {
+                cout << "\n\t Enter valid input ";
+                break;
+            }
+        }
+    } while(choice != '3');
     cout << endl;
-    float sum = 0;
-    Student s1;
-    s1.Getrec();
-    s1.Printrec();
     return 0;
 }
