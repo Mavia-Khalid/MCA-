@@ -11,7 +11,7 @@ public:
     {
         cout << "\n\t Enter Name : ";
         cin >> name;
-        cout << "\n\t Enter Roll No : ";
+        cout << "\t Enter Roll No : ";
         cin >> roll;
     }
     void display_details()
@@ -22,30 +22,95 @@ public:
         cout << endl;
     }
 };
-class Examination : public Student
+class Examination : virtual public Student
 {
 protected:
     float test1, test2;
+
 public:
-    void get_ExamDetails()
+    void Get_Exam_Details()
     {
-        cout << "\n\t Enter marks for Test 1 : ";
+        cout << "\n\t Enter Marks for Test 1 : ";
         cin >> test1;
-        cout << "\n\t Enter marks for Test 2 : ";
+        cout << "\t Enter Marks for Test 2 : ";
         cin >> test2;
     }
     float totalExam()
     {
         return (test1 + test2);
     }
-    void cal_average()
+    float cal_average()
     {
-        cout << "\n\t Average of Both Tests : " << (test1 + test2) / 2;
+        return (test1 + test2) / float(2);
+    }
+    void display_average()
+    {
+        cout << "\n\t Average of Both Tests : " << cal_average();
     }
 };
-class Extracurricular : public Student
+class Extracurricular : virtual public Student
 {
+protected:
+    float painting, music;
+
+public:
+    void get_score()
+    {
+        cout << "\n\t Enter Marks for painting : ";
+        cin >> painting;
+        cout << "\t Enter Marks for music : ";
+        cin >> music;
+    }
+    void display_total()
+    {
+        cout << "\n\t Total Marks in Music and Painting : " << (painting+music); 
+    }
 };
 class result : public Examination, public Extracurricular
 {
+    float total = 0;
+public:
+    void cal_total()
+    {
+        total = (painting+music+test1+test2);
+        cout << "\n\t Total Marks Obtained : " << total;
+    }
+    void comment()
+    {
+        if(total > 100)
+        {
+            cout << "\n\t Passed ";
+        }
+        else
+        {
+            cout << "\n\t Failed ";
+        }
+    }
 };
+int main()
+{
+    int n;
+    cout<<"\n\t Enter the no of students : ";
+    cin>>n;
+    result *a = new result[n];
+    for(int i = 0; i < n; i++)
+    {
+        cout << "\n\t Enter Student " << i+1 << " Details ";
+        a[i].get_details();
+        a[i].Get_Exam_Details();
+        a[i].get_score();
+    }
+    for(int i = 0; i < n; i++)
+    {
+        cout << "\n\t\t         Student " << i+1 << " Details ";
+        a[i].display_details();
+        cout << "\n\t Marks in Tests : " << a[i].totalExam();
+        a[i].display_average();
+        a[i].display_total();
+        a[i].cal_total();
+        a[i].comment();
+    }
+    cout << endl << endl;
+    return 0;
+
+}
