@@ -74,11 +74,11 @@ void Student::Printrec()
 class Exam
 {
     string exam_name, paper_name[2], paper_code[2];
-    int marks_obtained[2], total_marks , n = 2;
-    char grade[2];
+    float marks_obtained[2], total_marks , n = 2;
+    string grade[2];
     Student a;
 public:
-    Exam()
+    Exam()            // Constructor
     {
         total_marks = 100;
     }
@@ -88,14 +88,14 @@ public:
     void getgrade(int i);
     int totalmarks();
     void students();
-    int roll(int r, int i)
+    int roll(int r, int i)  // Checks if the given roll no exists or not 
     {
         if (a.stud_roll == r)
         {
-            return i;
+            return i;    // returns index of the object where the record is stored
         }
         else
-            return -1;
+            return -1;   // if record not found , returns -1
     }
 };
 void Exam::getmarks()
@@ -113,41 +113,49 @@ void Exam::getmarks()
         getgrade(i);
     }
 }
-void Exam::students()
+void Exam::students()  
 {
-    a.Getrec();
-    getmarks();
+    a.Getrec();   // gets student info
+    getmarks();   // gets student exam info
 }
 void Exam::getgrade(int i)
 {
     if(marks_obtained[i] >= 90)
     {
-        grade[i] = 'A';
+        grade[i] = "A+";
     }
     else if(marks_obtained[i] >= 80 && marks_obtained[i] < 90)
     {
-        grade[i] = 'B';
+        grade[i] = "A-";
     }
     else if(marks_obtained[i] >= 70 && marks_obtained[i] < 80)
     {
-        grade[i] = 'C';
+        grade[i] = "B+";
     }
     else if(marks_obtained[i] >= 60 && marks_obtained[i] < 70)
     {
-        grade[i] = 'D';
+        grade[i] = "B-";
     }
     else if(marks_obtained[i] >= 50 && marks_obtained[i] < 60)
     {
-        grade[i] = 'E';
+        grade[i] = "C+";
+    }
+    else if(marks_obtained[i] >= 40 && marks_obtained[i] < 50)
+    {
+        grade[i] = "C-";
+    }
+    else if(marks_obtained[i] >= 33 && marks_obtained[i] < 40)
+    {
+        grade[i] = "E";
     }
     else
     {
-        grade[i] = 'F';
+        grade[i] = "F";
     }
 }
 int Exam::totalmarks()
 {
-    int total;
+    float total = 0;
     for(int i = 0; i < n; i++)
     {
         total = total + marks_obtained[i];
@@ -161,13 +169,13 @@ void Exam::printresult()
     cout << "\n\t    Paper Name " << "\t Paper Code "<< "\t Marks " << "\t   Grade ";
     for(int i = 0; i < n; i++)
     {
-        cout << "\n\t\t" << paper_name[i] << "\t   " << paper_code[i] << "\t  " << marks_obtained[i] << "       " << grade[i];
+        cout << "\n\t\t" << paper_name[i] << "\t   " << paper_code[i] << "\t   " << marks_obtained[i] << "        " << grade[i];
     }
     cout << endl;
-    float p = (totalmarks()/200)*100;
+    float p = (totalmarks()*100)/float(200);
     cout << "\n\t    Total marks : " << totalmarks();
     cout << "\t Percentage : " << p;
-    if(float((totalmarks()/n)*100 >= 33))
+    if(p >= 33)
     {
         cout << "\n\n\t\t\t   Result : Pass "; 
     }
@@ -193,15 +201,15 @@ void Exam::modifymarks()
         case '2':
         {
             int j = 0;
-            cout << "\n\t Enter to modify marks\n";
-            for (int i = 0; i < n; i++)
+            cout << "\n\t Enter serial no. to modify marks ";
+            for (int i = 0; i < n; i++)   // loop to iterate through subjects
             {
                 cout << endl << i + 1 << ". " << paper_name[i] << "  ";
                 cout << marks_obtained[i] << endl;
             }
             cin >> j;
             cin.ignore();
-            if (j >= 1 && j <= n)
+            if (j >= 1 && j <= n)  // condition to check entered value is correct
             {
                 cout << "Enter the correct marks of the student\n";
                 cin >> marks_obtained[j - 1];
@@ -209,12 +217,12 @@ void Exam::modifymarks()
             }
             else
             {
-                cout << "\n\t Invalid option";
+                cout << "\n\t Invalid Choice ";
             }
             break;
         }
         default:
-            cout << "\n\t Invalid choice";
+            cout << "\n\t Invalid Choice ";
             break;
         }
 }
@@ -238,13 +246,13 @@ int main()
             case '2':
             {
                 int roll;
-                int j = -1;
+                int j = -1;  // variable to store index of record and if not available value stays -1 or in wrong input
                 cout << "\n\t Enter the Roll to acess student record: ";
                 cin >> roll;
-                int i = 0;
-                while (j == -1 && i < count)
+                int i = 0;    // variable to iterate through array of objects
+                while (j == -1 && i < count)    // as soon as j value is changed that means record found
                 {
-                    j = a[i].roll(roll, i);
+                    j = a[i].roll(roll, i);     // stores index of record if found
                     i++;
                 }
                 if (j != -1)
@@ -260,7 +268,7 @@ int main()
                         {
                             case '1':
                             {
-                                a[j].printresult();
+                                a[j].printresult();   // j is the index where record is stored
                                 break;
                             }
                             case '2':

@@ -2,8 +2,8 @@
 using namespace std; 
 class Distance
 {
-    float inch;
-    float feet;
+    int inch;
+    int feet;
 public:
     Distance()
     {
@@ -17,7 +17,7 @@ public:
     {
         double meter;
         meter = feet * 12 + inch;
-        meter = (meter * 254) / 10000;
+        meter = (meter * 0.0254);
         return (meter);
     }
 
@@ -37,13 +37,13 @@ int main()
 {
     double meter;
     int feet, inch;
-    cout << "\n\t Enter inch :";
+    cout << "\n\t Enter Feet : ";
     cin >> feet;
-    cout << "\n\t Enter inch :";
+    cout << "\n\t Enter inch : ";
     cin >> inch;
     Distance *d = new Distance(feet, inch);
-    meter = *d; // invoke conversion function   	
     d->display();
+    meter = *d; // invoke conversion function   	
     cout << "\n\t Distance in meters is : " << meter;
     cout << endl << endl;
     return 0;

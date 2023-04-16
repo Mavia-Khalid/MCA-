@@ -24,7 +24,7 @@ int main()
     int breadth, length;
     float base, height;
     float radius;
-    int choice;
+    char choice;
     Shape *s = new Shape();
     do
     {
@@ -36,7 +36,7 @@ int main()
         cin >> choice;
         switch(choice)
         {
-        case 1:
+        case '1':
             cout << "\n\t Enter base : ";
             cin >> base; 
             cout << "\n\t Enter height : ";
@@ -45,7 +45,7 @@ int main()
             cout << endl;
             break;
 
-        case 2:
+        case '2':
             cout << "\n\t Enter length : ";
             cin >> length;
             cout << "\n\t Enter breadth : ";
@@ -54,15 +54,15 @@ int main()
             cout << endl;
             break;
 
-        case 3:
+        case '3':
             cout << "\n\t Enter radius : ";
             cin >> radius;
             cout << "\n\t Area of Circle is : " << s->Area(radius);
             cout << endl;
             break;
-        case 4:
+        case '4':
             break;
         }
 
-    } while (choice != 4);
+    } while (choice != '4');
 }

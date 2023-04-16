@@ -5,12 +5,12 @@ class Static_1
 {
 public:
 	// declare a static data member
-	static int static_member;
+	static int static_member;    // 1 copy of variable for the whole prgoram
 	Static_1()
 	{
 		static_member++;
 	}
-	static void disp()
+	static void disp() // static function can only access static data members
 	{
 		cout << "\n\t No of objects : " << static_member;
 	}
