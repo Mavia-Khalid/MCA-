@@ -12,7 +12,15 @@ float str_to_float(string str)
     }
     for(int i = str.length()-1; i >= 0; i--)
     {
-        s.push(str[i]);
+        if((str[i] >= 48 && str[i] <= 57) || str[i] == '-' || str[i] == '.')
+        {
+            s.push(str[i]);
+        }
+    }
+    if(s.size() != str.length())
+    {
+        cout << "\n\t Invalid ";
+        return 0;
     }
     while(s.top() != '.')
     {
@@ -45,6 +53,9 @@ int main()
     getline(cin, a);
     float val;
     val = str_to_float(a);
-    cout << "\n\t" << val << endl << endl;
+    if(val)
+    {
+        cout << "\n\t" << val << endl << endl;
+    }
     return 0;
 }
