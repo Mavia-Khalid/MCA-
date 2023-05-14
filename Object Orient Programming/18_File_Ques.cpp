@@ -33,10 +33,9 @@ int main()
     fout.close();
 /*
     Output :
-    Contents of nmergedtxt:
+    Contents of nmerged.txt:
     Name : Mavia Khalid
     Course : MCA
-    Contents of File2.txt:
     Roll No. : 22MCA026
     University : Jamia Millia Islamia
 */
