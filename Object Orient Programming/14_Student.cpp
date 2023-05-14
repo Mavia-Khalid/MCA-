@@ -1,9 +1,3 @@
-/*1. Class student contains roll number, name and course as data members and
-Input_student() and display_student() as member functions. A derived class exam is
-created from the class student with publicly inherited. The derived class contains mark1,
-mark2, mark3 as marks of three subjects and input_marks() and display_result() as
-member functions. Create an array of objects of the exam class and display the result of 5
-students.*/
 #include <iostream>
 using namespace std;
 class Student
