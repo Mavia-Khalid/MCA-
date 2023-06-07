@@ -13,7 +13,7 @@ using namespace std;
 int main()
 {
     ifstream fin;
-    fin.open("File1.txt");
+    fin.open("File1.txt"); 
     string line, merged = "";
     while (getline(fin, line))
     {
@@ -31,12 +31,12 @@ int main()
     fout.open("merged.txt");
     fout << merged;
     fout.close();
-/*
-    Output :
-    Contents of nmerged.txt:
-    Name : Mavia Khalid
-    Course : MCA
-    Roll No. : 22MCA026
-    University : Jamia Millia Islamia
-*/
+    /*
+        Output :
+        Contents of nmerged.txt:
+        Name : Mavia Khalid
+        Course : MCA
+        Roll No. : 22MCA026
+        University : Jamia Millia Islamia
+    */
 }
