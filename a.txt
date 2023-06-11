@@ -1,0 +1,9 @@
+ltm ltm : j=0 to i , k=j to i
+utm utm : j=i to n-1, k=i to j
+ltm utm : k = 0 to min(i,j)
+utm ltm : k= max(i,j) to n-1
+lutm lutm : k =0 to min(n-i-1,n-j-1)
+rltm rltm :k = max(n-i-1,n-j-1) to n-1
+rd rd : a[i]*b[n-i-1]
+rd lutm : j=0 to i , a[i]*b[n-i-1][j]
+lutm rd : j=i to n-1 , a[n-j-1]*b[i][n-j-1]
