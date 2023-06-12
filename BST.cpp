@@ -1,270 +1,261 @@
 #include <iostream>
-#include <queue>
 using namespace std;
-class node
+
+class Node
 {
 public:
     int data;
-    node *left;
-    node *right;
-    node(int data)
+    Node *left;
+    Node *right;
+    Node(int data)
     {
         this->data = data;
         this->left = NULL;
         this->right = NULL;
     }
 };
+
 class BST
 {
-
 public:
-    node *root;
+    Node *root;
     BST()
     {
         root = NULL;
     }
-    node *Insert(node *r, int data)
+
+    void insertRec(int data, Node *&root)
     {
-        if (r == NULL)
+        if (root == NULL)
         {
-            r = new node(data);
-            return r;
+            Node *newNode = new Node(data);
+            root = newNode;
         }
-        if (r->data > data)
+        else if (data < root->data)
         {
-            r->left = Insert(r->left, data);
+            insertRec(data, root->left);
         }
-        else
+        else if (data > root->data)
         {
-            r->right = Insert(r->right, data);
-        }
-        return r;
-    }
-    void insert()
-    {
-        int data;
-        cout << "\n\t Enter Data : ";
-        cin >> data;
-        while (data != -1)
-        {
-            root = Insert(root, data);
-            cin >> data;
+            insertRec(data, root->right);
         }
     }
-    void PreOrderTraversal(node *r)
+
+    Node *serachItr(int x)
     {
-        if (r == NULL)
+        Node *r = root;
+        bool flag = false;
+        while (r != NULL)
         {
-            return;
-        }
-        cout << " " << r->data;
-        PreOrderTraversal(r->left);
-        PreOrderTraversal(r->right);
-    }
-    void PrintPreOrder()
-    {
-        cout << "\n\t Pre Order Traversal : ";
-        PreOrderTraversal(root);
-    }
-    void InOrderTraversal(node *r)
-    {
-        if (r == NULL)
-        {
-            return;
-        }
-        InOrderTraversal(r->left);
-        cout << " " << r->data;
-        InOrderTraversal(r->right);
-    }
-    void PrintInOrder()
-    {
-        cout << "\n\t In Order Traversal : ";
-        InOrderTraversal(root);
-    }
-    void PostOrderTraversal(node *r)
-    {
-        if (r == NULL)
-        {
-            return;
-        }
-        PostOrderTraversal(r->left);
-        PostOrderTraversal(r->right);
-        cout << " " << r->data;
-    }
-    void PrintPostOrder()
-    {
-        cout << "\n\t Post Order Traversal : ";
-        PostOrderTraversal(root);
-    }
-    void LevelOrderTraversal()
-    {
-        queue<node *> q;
-        q.push(root);
-        q.push(NULL);
-        while (!q.empty())
-        {
-            node *temp = q.front();
-            q.pop();
-            if (temp == NULL)
+            if (r->data == x)
             {
-                cout << endl;
-                if (!q.empty())
-                {
-                    q.push(NULL);
-                }
+                flag = true;
+                break;
+            }
+            else if (x < r->data)
+            {
+                r = r->left;
             }
             else
             {
-                cout << " " << temp->data;
-                if (temp->left)
-                {
-                    q.push(temp->left);
-                }
-                if (temp->right)
-                {
-                    q.push(temp->right);
-                }
+                r = r->right;
             }
         }
-    }
-    bool FindNode(node *temp, int key)
-    {
-
-        if (temp == NULL)
+        if (flag)
         {
-            return false;
-        }
-        if (temp->data == key)
-        {
-            return true;
-        }
-        if (temp->data > key)
-        {
-            return FindNode(temp->left, key);
+            cout << x << " Found at " << r << endl;
+            return r;
         }
         else
         {
-            return FindNode(temp->right, key);
+            cout << x << " Not Found" << endl;
+            return NULL;
         }
     }
-    bool Find_Key(int key)
+
+    void insertItr(int data)
     {
-        bool ans = FindNode(root, key);
-        return ans;
+        Node *parent = NULL;
+        Node *r = this->root;
+
+        while (r != NULL)
+        {
+            if (data < r->data)
+            {
+                parent = r;
+                r = r->left;
+            }
+            else if (data > r->data)
+            {
+                parent = r;
+                r = r->right;
+            }
+            else
+            {
+                cout << "Key already exists" << endl;
+                exit(0);
+            }
+        }
+        Node *newNode = new Node(data);
+        if (parent == NULL)
+        {
+            root = newNode;
+        }
+        else if (data < parent->data)
+        {
+            parent->left = newNode;
+        }
+        else if (data > parent->data)
+        {
+            parent->right = newNode;
+        }
     }
-    int height(node* temp)
+
+    void delItr(int x)
     {
-        if(temp == NULL)
+        Node *parent = NULL;
+        Node *r = root;
+        bool flag = false;
+        while (r != NULL)
         {
-            return 0;
+            if (x == r->data)
+            {
+                flag = true;
+                break;
+            }
+            else if (x < r->data)
+            {
+                parent = r;
+                r = r->left;
+            }
+            else
+            {
+                parent = r;
+                r = r->right;
+            }
         }
-        int LeftAns = height(temp->left);
-        int rightans = height(temp->right);
-        int ans = max(LeftAns,rightans)+1;
-        return ans;
+        if (!flag)
+        {
+            cout << "Deletion Not possible. Key Does not exists" << endl;
+        }
+        else
+        {
+            if (r->left == NULL && r->right == NULL)
+            {
+                if (parent->left == r)
+                {
+                    parent->left = NULL;
+                }
+                else
+                {
+                    parent->right = NULL;
+                }
+                delete r;
+            }
+            else if (r->left != NULL && r->right == NULL)
+            {
+                if (parent->left == r)
+                {
+                    parent->left = r->left;
+                }
+                else
+                {
+                    parent->right = r->left;
+                }
+                delete r;
+            }
+            else if (r->left == NULL && r->right != NULL)
+            {
+                if (parent->left == r)
+                {
+                    parent->left = r->right;
+                }
+                else
+                {
+                    parent->right = r->right;
+                }
+                delete r;
+            }
+            else if (r->left != NULL && r->right != NULL)
+            {
+                parent = r;
+                Node *suc = r->right;
+                while (suc->left != NULL)
+                {
+                    parent = suc;
+                    suc = suc->left;
+                }
+                // int t = r->data;
+                r->data = suc->data;
+                // suc->data = r->data;
+                if (suc == parent->right)
+                {
+                    parent->right = suc->right;
+                }
+                else
+                {
+                    parent->left = suc->right;
+                }
+                delete suc;
+            }
+        }
     }
-    int GetSize(node* root)
+
+    void inorder(Node *root)
     {
-        if(root == NULL)
-        {
-            return 0;
-        }
-        return GetSize(root->left) + GetSize(root->right) + 1;
+        if (root == NULL)
+            return;
+
+        inorder(root->left);
+        cout << root->data << "  ";
+        inorder(root->right);
     }
-    int Min(node* root)
+
+    void preorder(Node *root)
     {
-        if(root == NULL)
-        {
-            return -1;
-        }
-        int min = root->data;
-        while(root->left != NULL)
-        {
-            root = root->left;
-        }
-        return root->data;
+        if (root == NULL)
+            return;
+
+        cout << root->data << "  ";
+        preorder(root->left);
+        preorder(root->right);
     }
-    int Max(node* root)
+
+    void postorder(Node *root)
     {
-        if(root == NULL)
-        {
-            return -1;
-        }
-        int max = root->data;
-        while(root->right != NULL)
-        {
-            root = root->right;
-        }
-        return root->data;
+        if (root == NULL)
+            return;
+
+        postorder(root->left);
+        postorder(root->right);
+        cout << root->data << "  ";
     }
-    node* deleteNodeInBST(node* root, int target) {
-	
-	//base cae
-	if(root == NULL ) {
-		return NULL;
-	}
-//cout << "Request recieved for " >> root->data << " with target" << target << endl;
-	if(root->data == target) {
-		//isi ko delete krna h 
-		//4 cases 
-		if(root->left == NULL && root->right == NULL) {
-			//leaf node
-			//delete root;
-			return NULL;
-		}
-		else if(root->left == NULL && root->right != NULL) {
-			node* child = root->right;
-			//delete root;
-			return child;
-		}
-		else if(root->left != NULL && root->right == NULL) {
-			node* child  = root->left;
-			//delete root;
-			return child;
-		}
-		else {
-			//both child
-			//find inorder predecessor inb left subtree
-			int inorderPre = Max(root->left);
-			//replace root->data value with inorder predecessor
-			root->data = inorderPre;
-			//delete inorder predecessor from left subtree
-			root->left = deleteNodeInBST(root->left,inorderPre);
-			return root;
-			
-		}
-		
-	}
-	else if(target > root -> data) {
-		//right jana chahiye
-		root->right =  deleteNodeInBST(root->right, target);
-	}
-	else if(target < root->data) {
-		//left jana chahioye
-		root->left = deleteNodeInBST(root->left, target);
-	}
-	return root;
-}
 };
 int main()
 {
-    BST tree;
-    tree.insert();
-    tree.PrintPreOrder();
-    tree.PrintInOrder();
-    tree.PrintPostOrder();
+    BST t;
+    // t.insertRec(5,t.root);
+    // t.insertRec(2,t.root);
+    // t.insertRec(8,t.root);
+    // t.insertRec(6,t.root);
+    t.insertItr(5);
+    t.insertItr(2);
+    t.insertItr(8);
+    t.insertItr(6);
+    t.insertItr(15);
+    t.insertItr(11);
+    t.insertItr(25);
+    t.insertItr(10);
+    t.insertItr(12);
+    t.insertItr(20);
+    t.insertItr(30);
+    t.inorder(t.root);
     cout << endl;
-    tree.LevelOrderTraversal();
+    t.preorder(t.root);
     cout << endl;
-    cout << "\t Key is " << tree.Find_Key(15);
-    cout << "\n\t Height : " << tree.height(tree.root);
-    cout << "\n\t Size : " << tree.GetSize(tree.root);
-    cout << endl;
-    cout << "\n\t Min : " << tree.Min(tree.root);
-    cout << "\n\t Max : " << tree.Max(tree.root);
-    cout << "\n\t Deleting 15 : ";
-    tree.deleteNodeInBST(tree.root,15);
-    cout << "\n\t After Deletion : ";
-    tree.PrintInOrder();
-    return 0;
+    t.postorder(t.root);
+    // t.delItr(15);
+    // t.inorder(t.root);
+    // t.serachItr(2);
+    // t.serachItr(10);
 }
