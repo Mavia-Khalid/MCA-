@@ -1,1 +1,1 @@
-start
+2*nums[j]
